@@ -1,0 +1,5 @@
+{
+  "device": true,
+  "features": "time,net,io-util,fs",
+  "run": true
+}
