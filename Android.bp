@@ -37,4 +37,9 @@ rust_library {
         "libpin_project_lite",
         "libtokio",
     ],
+    apex_available: [
+        "//apex_available:platform",
+        "com.android.bluetooth",
+    ],
+    min_sdk_version: "29",
 }
