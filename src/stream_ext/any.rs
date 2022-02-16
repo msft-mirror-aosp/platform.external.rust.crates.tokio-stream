@@ -38,21 +38,18 @@ where
 
     fn poll(self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<Self::Output> {
         let me = self.project();
-        let mut stream = Pin::new(me.stream);
+        let next = futures_core::ready!(Pin::new(me.stream).poll_next(cx));
 
-        // Take a maximum of 32 items from the stream before yielding.
-        for _ in 0..32 {
-            match futures_core::ready!(stream.as_mut().poll_next(cx)) {
-                Some(v) => {
-                    if (me.f)(v) {
-                        return Poll::Ready(true);
-                    }
+        match next {
+            Some(v) => {
+                if (me.f)(v) {
+                    Poll::Ready(true)
+                } else {
+                    cx.waker().wake_by_ref();
+                    Poll::Pending
                 }
-                None => return Poll::Ready(false),
             }
+            None => Poll::Ready(false),
         }
-
-        cx.waker().wake_by_ref();
-        Poll::Pending
     }
 }
