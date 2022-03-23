@@ -113,7 +113,7 @@ impl<T: AsRef<str>> sealed::FromStreamPriv<T> for String {
     }
 
     fn finalize(_: sealed::Internal, collection: &mut String) -> String {
-        mem::take(collection)
+        mem::replace(collection, String::new())
     }
 }
 
@@ -132,7 +132,7 @@ impl<T> sealed::FromStreamPriv<T> for Vec<T> {
     }
 
     fn finalize(_: sealed::Internal, collection: &mut Vec<T>) -> Vec<T> {
-        mem::take(collection)
+        mem::replace(collection, vec![])
     }
 }
 
