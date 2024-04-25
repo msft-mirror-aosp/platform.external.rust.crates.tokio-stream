@@ -4,10 +4,11 @@
     "com.android.btservices"
   ],
   "features": [
-    "time",
-    "net",
+    "fs",
     "io-util",
-    "fs"
+    "net",
+    "sync",
+    "time"
   ],
   "min_sdk_version": "29",
   "run_cargo": false
